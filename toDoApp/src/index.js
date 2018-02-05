@@ -4,6 +4,7 @@ import App from './app.vue';
 
 import './assets/style/style.css'
 import './assets/images/bg.jpg'
+import './assets/style/test.styl'
 
 const root = document.createElement('div');
 document.body.appendChild(root);

@@ -1,6 +1,9 @@
 const path = require('path');
 
-module.exports = {
+// 判断是否为开发环境
+const isDev = process.env.NODE_ENV === 'development';
+
+const config = {
     // 设置入口
     //__dirname代表webpack.config.js文件所在的地址
     entry: path.join(__dirname, 'src/index.js'),//将--dirname和后面的路径连接成绝对路径
@@ -11,6 +14,7 @@ module.exports = {
     },
 
     module:{
+        target: 'web',
         rules: [
             {
                 // 加载vue文件
@@ -51,3 +55,17 @@ module.exports = {
         ]
     }
 };
+
+if(isDev) {
+    config.devServer = {
+        port: '8000',
+        // 使用0.0.0.0不仅可以localhost，也可以ip,手机
+        host: '0.0.0.0',
+        overlay: {
+            //让编译中出现的错误显示在网页上
+            errors: true,
+        }
+    }
+}
+
+module.exports = config;
