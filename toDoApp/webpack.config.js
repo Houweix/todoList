@@ -13,9 +13,28 @@ module.exports = {
     module:{
         rules: [
             {
-                test: /.vue$/,
+                // 加载vue文件
+                test: /\.vue$/,
                 loader: 'vue-loader'
-
+            },
+            {
+                // 加载css文件
+                test: /\.css$/,
+                use: ['css-loader','style-loader']
+            },
+            {
+                test: /\.(gif|jpg|png|jpeg|svg)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        option: {
+                            // 设置转换base64文件大小界限,小于该界限就转换base64
+                            limit: 1024,
+                            // 设置输出名字.扩展名
+                            name: '[name]-img.[ext]'
+                        }
+                    }
+                ]
             }
         ]
     }
