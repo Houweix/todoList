@@ -20,14 +20,26 @@ module.exports = {
             {
                 // 加载css文件
                 test: /\.css$/,
-                use: ['css-loader','style-loader']
+                use: ['style-loader','css-loader']
+            },
+
+            {
+                //css预处理器
+                test: /\.styl/,
+                use: [
+                    // 注意依赖插件的加载顺序,stylus处理完给css-loader（依赖style-loader），
+                    'style-loader',
+                    'css-loader',
+                    'stylus-loader'
+                ]
             },
             {
+                // 加载图片
                 test: /\.(gif|jpg|png|jpeg|svg)$/,
                 use: [
                     {
                         loader: 'url-loader',
-                        option: {
+                        options: {
                             // 设置转换base64文件大小界限,小于该界限就转换base64
                             limit: 1024,
                             // 设置输出名字.扩展名
