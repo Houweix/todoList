@@ -9,12 +9,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },{
-      path: '/movie',
+      name: 'Movie',
       component: Movie
-
     }
   ]
 })
