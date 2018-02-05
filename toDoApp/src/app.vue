@@ -7,7 +7,7 @@
         name: "app",
         data(){
             return {
-                msg:"hello world"
+                msg:"hello world houwei"
             }
         }
     }
