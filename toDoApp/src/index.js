@@ -3,7 +3,6 @@ import Vue from 'vue';
 import App from './app.vue';
 
 import './assets/style/style.css'
-import './assets/images/bg.jpg'
 import './assets/style/global.styl'
 
 
