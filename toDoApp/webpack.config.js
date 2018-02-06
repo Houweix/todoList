@@ -36,6 +36,13 @@ const config = {
                     // 注意依赖插件的加载顺序,stylus处理完给css-loader（依赖style-loader），
                     'style-loader',
                     'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            //使用下面的stylus-loader生成的
+                            sourceMap: true,
+                        }
+                    },
                     'stylus-loader'
                 ]
             },
@@ -53,7 +60,11 @@ const config = {
                         }
                     }
                 ]
-            },
+            },{
+                test: /\.jsx$/,
+                loader: "babel-loader"
+
+            }
 
 
         ]
