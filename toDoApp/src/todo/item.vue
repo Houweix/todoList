@@ -1,5 +1,6 @@
 <template>
     <div :class="['todo-item',todo.completed ? 'completed' : '']">
+        <!-- v-model= "t odo.completed"  是绑定每个列表行项的状态-->
         <input type="checkbox"
                class="toggle"
                v-model="todo.completed"
@@ -19,6 +20,7 @@
         },
         methods: {
             deleteTodo() {
+                // 子组件通知父组件用emit,触发del事件
                 this.$emit('del', this.todo.id)
             }
         }

@@ -19,11 +19,12 @@
 
 <script>
     export default {
+        // 父组件向子组件传用props
         props: {
             filter: {
                 type: String,
                 required: true,
-            }
+            },
         },
         data() {
             return {

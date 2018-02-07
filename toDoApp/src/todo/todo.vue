@@ -7,10 +7,14 @@
                 placeholder="接下来要做什么？"
                 @keyup.enter="addTodo"
         >
+        <!--待办列表项-->
+        <!--:todo是子组件的props属性 “t odo”是todos中的每一项-->
+        <!--@del是监听子组件的emit方法  "deleteTodo"是调用当前父组件的methods方法-->
         <item
-                :todo="todo1"
-                v-for="todo1 in todos"
+                :todo="todo"
+                v-for="todo in todos"
                 :key="todos.id"
+                @del="deleteTodo"
         />
         <tabs></tabs>
     </section>
@@ -19,23 +23,34 @@
 <script>
     import Item from './item.vue';
     import Tabs from './tabs.vue';
+
     let id = 0;
 
     export default {
-        data(){
+        data() {
             return {
-                todos:[],
+                todos: [],
                 filter: 'all'
             }
         },
         methods: {
-            addTodo(e){
+            //添加列表项
+            addTodo(e) {
                 id = id++;
                 this.todos.unshift({
                     id: id++,
                     content: e.target.value.trim(),
-                    complete: false
-                })
+                    completed: false
+                });
+                e.target.value = "";
+            },
+            //删除列表项
+            deleteTodo(id) {
+                this.todos.splice(
+                    this.todos.findIndex(
+                        // 找到todos中id等于子组件传来id的那个项
+                        todo => todo.id === id
+                    ), 1)
             }
         },
         components: {
@@ -46,12 +61,13 @@
 </script>
 
 <style lang="stylus" scoped>
-    .real-app{
+    .real-app {
         width 600px
         margin 0 auto
         box-shadow 0 0 5px #666
     }
-    .add-input{
+
+    .add-input {
         position: relative;
         margin: 0;
         width: 100%;
@@ -69,6 +85,6 @@
         font-smoothing: antialiased;
         padding: 16px 16px 16px 60px;
         border: none;
-        box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
+        box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
     }
 </style>
