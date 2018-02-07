@@ -19,7 +19,8 @@
     export default {
         data(){
             return {
-                todo:{
+                //数据是数组
+                todos:{
                     id: 0,
                     content: 'this is todo',
                     completed : false,
