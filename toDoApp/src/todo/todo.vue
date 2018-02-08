@@ -12,11 +12,18 @@
         <!--@del是监听子组件的emit方法  "deleteTodo"是调用当前父组件的methods方法-->
         <item
                 :todo="todo"
-                v-for="todo in todos"
+                v-for="todo in filteredTodos"
                 :key="todos.id"
                 @del="deleteTodo"
         />
-        <tabs></tabs>
+
+        <!--监听子组件的toggle-->
+        <tabs
+            :filter="filter"
+            :todos="todos"
+            @toggle="toggleFilter"
+            @clearAllCompleted="clearAllCompleted"
+        />
     </section>
 </template>
 
@@ -30,7 +37,7 @@
         data() {
             return {
                 todos: [],
-                filter: 'all'
+                filter: '全部'
             }
         },
         methods: {
@@ -51,14 +58,38 @@
                         // 找到todos中id等于子组件传来id的那个项
                         todo => todo.id === id
                     ), 1)
+            },
+            //切换当前的filter信息
+            toggleFilter(state){
+                this.filter = state;
             }
         },
         components: {
             Item,
             Tabs
+        },
+        computed: {
+            //被过滤过的todos
+            filteredTodos(){
+                //全部
+                if(this.filter === '全部'){
+                    return this.todos;
+                }
+
+                //已完成
+                //注意此时completed是一个布尔值
+                const completed = (this.filter === '已完成' );
+                return this.todos.filter(
+                    todo =>
+                        completed === todo.completed
+                )
+
+            }
         }
     }
 </script>
+
+
 
 <style lang="stylus" scoped>
     .real-app {

@@ -27,7 +27,8 @@
     }
 </script>
 
-<style scoped lang="stylus">
+
+<style lang="stylus" scoped>
     .todo-item{
         position relative
         background-color #fff
