@@ -6,7 +6,11 @@
                 autofocus
                 placeholder="接下来要做什么？"
                 @keyup.enter="addTodo"
+                v-model="inputContent"
         >
+
+        <span class="add"  @click="addTodoSpan">添加</span>
+
         <!--待办列表项-->
         <!--:todo是子组件的props属性 “t odo”是todos中的每一项-->
         <!--@del是监听子组件的emit方法  "deleteTodo"是调用当前父组件的methods方法-->
@@ -34,12 +38,16 @@
     let id = 0;
 
     export default {
+
         data() {
             return {
                 todos: [],
-                filter: '全部'
+                filter: '全部',
+                inputContent: ''
             }
         },
+
+
         methods: {
             //添加列表项
             addTodo(e) {
@@ -50,7 +58,19 @@
                     completed: false
                 });
                 e.target.value = "";
+                this.inputContent = "";
             },
+            addTodoSpan() {
+                id = id++;
+                this.todos.unshift({
+                    id: id++,
+                    content: this.inputContent.trim(),
+                    completed: false
+                });
+                this.inputContent = "";
+            },
+
+
             //删除列表项
             deleteTodo(id) {
                 this.todos.splice(
@@ -62,12 +82,23 @@
             //切换当前的filter信息
             toggleFilter(state){
                 this.filter = state;
+            },
+            clearAllCompleted(){
+                //给当前的todos赋一个过滤已完成的新数组
+                 this.todos = this.todos.filter(
+                     todo =>
+                         !todo.completed
+                 )
             }
         },
+
+
         components: {
             Item,
             Tabs
         },
+
+
         computed: {
             //被过滤过的todos
             filteredTodos(){
@@ -96,6 +127,20 @@
         width 600px
         margin 0 auto
         box-shadow 0 0 5px #666
+        position relative
+    }
+
+        
+    .add{
+        position absolute
+        right  5%
+        top: 19px
+        background #ffffff
+        z-index 100000
+        border-color rgba(175,47,47,0.4)
+        border-radius 5px
+        cursor pointer
+
     }
 
     .add-input {

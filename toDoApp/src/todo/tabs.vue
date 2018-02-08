@@ -97,5 +97,7 @@
             }
         }
     }
-
+    span::selection {
+        background:#fff;
+    }
 </style>
