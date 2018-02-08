@@ -1,5 +1,12 @@
 <template>
+
+
     <section class="real-app">
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        </head>
+
         <input
                 type="text"
                 class="add-input"
@@ -9,7 +16,7 @@
                 v-model="inputContent"
         >
 
-        <span class="add"  @click="addTodoSpan">添加</span>
+        <span class="add" @click="addTodoSpan">添加</span>
 
         <!--待办列表项-->
         <!--:todo是子组件的props属性 “t odo”是todos中的每一项-->
@@ -23,10 +30,10 @@
 
         <!--监听子组件的toggle-->
         <tabs
-            :filter="filter"
-            :todos="todos"
-            @toggle="toggleFilter"
-            @clearAllCompleted="clearAllCompleted"
+                :filter="filter"
+                :todos="todos"
+                @toggle="toggleFilter"
+                @clearAllCompleted="clearAllCompleted"
         />
     </section>
 </template>
@@ -38,7 +45,15 @@
     let id = 0;
 
     export default {
-
+        mounted(){
+            // console.log('加载啦');
+            let length = localStorage.getItem('todosLength');
+            for(let i = 0; i < length; i++){
+                this.todos.push(
+                    JSON.parse(localStorage.getItem('todos'+i))
+                );
+            }
+        },
         data() {
             return {
                 todos: [],
@@ -80,15 +95,15 @@
                     ), 1)
             },
             //切换当前的filter信息
-            toggleFilter(state){
+            toggleFilter(state) {
                 this.filter = state;
             },
-            clearAllCompleted(){
+            clearAllCompleted() {
                 //给当前的todos赋一个过滤已完成的新数组
-                 this.todos = this.todos.filter(
-                     todo =>
-                         !todo.completed
-                 )
+                this.todos = this.todos.filter(
+                    todo =>
+                        !todo.completed
+                )
             }
         },
 
@@ -99,17 +114,32 @@
         },
 
 
+        watch: {
+            todos(){
+                // console.log('保存啦');
+                this.todos.forEach(
+                    (elem, index) => {
+                        let s = JSON.stringify(elem);
+                        localStorage.setItem('todos' + index, s);
+                    }
+                );
+                localStorage.setItem('todosLength', this.todos.length);
+            }
+
+        },
+
+
         computed: {
             //被过滤过的todos
-            filteredTodos(){
+            filteredTodos() {
                 //全部
-                if(this.filter === '全部'){
+                if (this.filter === '全部') {
                     return this.todos;
                 }
 
                 //已完成
                 //注意此时completed是一个布尔值
-                const completed = (this.filter === '已完成' );
+                const completed = (this.filter === '已完成');
                 return this.todos.filter(
                     todo =>
                         completed === todo.completed
@@ -121,7 +151,6 @@
 </script>
 
 
-
 <style lang="stylus" scoped>
     .real-app {
         width 600px
@@ -130,14 +159,13 @@
         position relative
     }
 
-        
-    .add{
+    .add {
         position absolute
-        right  5%
+        right 5%
         top: 19px
         background #ffffff
         z-index 100000
-        border-color rgba(175,47,47,0.4)
+        border-color rgba(175, 47, 47, 0.4)
         border-radius 5px
         cursor pointer
 
