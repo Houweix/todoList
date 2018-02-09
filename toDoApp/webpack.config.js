@@ -1,6 +1,7 @@
 const path = require('path');
 const HTMLPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const ExtractPlugin = require('extract-text-webpack-plugin');
 
 // 判断是否为开发环境
 const isDev = process.env.NODE_ENV === 'development';
@@ -12,39 +13,15 @@ const config = {
     entry: path.join(__dirname, 'src/index.js'),//将--dirname和后面的路径连接成绝对路径
     // 设置出口
     output: {
-        filename: 'bundle.js',
+        filename: 'bundle.[hash:8].js',
         path: path.join(__dirname,'dist')
     },
-
     module:{
         rules: [
             {
                 // 加载vue文件
                 test: /\.vue$/,
                 loader: 'vue-loader'
-            },
-            {
-                // 加载css文件
-                test: /\.css$/,
-                use: ['style-loader','css-loader']
-            },
-
-            {
-                //css预处理器
-                test: /\.styl/,
-                use: [
-                    // 注意依赖插件的加载顺序,stylus处理完给css-loader（依赖style-loader），
-                    'style-loader',
-                    'css-loader',
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            //使用下面的stylus-loader生成的
-                            sourceMap: true,
-                        }
-                    },
-                    'stylus-loader'
-                ]
             },
             {
                 // 加载图片
@@ -63,10 +40,7 @@ const config = {
             },{
                 test: /\.jsx$/,
                 loader: "babel-loader"
-
             }
-
-
         ]
     },
     plugins: [
@@ -77,15 +51,29 @@ const config = {
                NODE_ENV: isDev ? '"development"' : '"production"'
            }
         }),
-
         new HTMLPlugin()
-
-
     ]
-
 };
 
 if(isDev) {
+    //手动将stylus处理加入rules中
+    config.model.rules.push({
+        //css预处理器
+        test: /\.styl/,
+        use: [
+            // 注意依赖插件的加载顺序,stylus处理完给css-loader（依赖style-loader），
+            'style-loader',
+            'css-loader',
+            {
+                loader: 'postcss-loader',
+                options: {
+                    //使用下面的stylus-loader生成的
+                    sourceMap: true,
+                }
+            },
+            'stylus-loader'
+        ]
+    },);
     //调试时会显示正常的源码
     config.devtool = '#cheap-model-eval-source-map';
     config.devServer = {
@@ -109,6 +97,30 @@ if(isDev) {
          new webpack.HotModuleReplacementPlugin(),
          new webpack.NoEmitOnErrorsPlugin()
      )
+}
+else {
+    //生产环境
+    config.output.filename = '[name].[chunkhash:8].js';
+    config.module.rules.push({
+        test: /\.styl/,
+        use: ExtractPlugin.extract({
+            fallback: 'style-loader',
+            use: [
+                'css-loader',
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        //使用下面的stylus-loader生成的
+                        sourceMap: true,
+                    }
+                },
+                'stylus-loader'
+            ]
+        })
+    },);
+    config.plugins.push(
+        new ExtractPlugin('styles.[contentHash:8].css')
+    )
 }
 
 module.exports = config;
