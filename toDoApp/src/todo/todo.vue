@@ -4,7 +4,6 @@
     <section class="real-app">
         <head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
         </head>
 
         <input
@@ -95,6 +94,7 @@
                         // 找到todos中id等于子组件传来id的那个项
                         todo => todo.id === id
                     ), 1)
+
             },
             //切换当前的filter信息
             toggleFilter(state) {
@@ -118,6 +118,9 @@
 
         watch: {
             todos(){
+                //先清除所有的
+                localStorage.clear();
+
                 // console.log('保存啦');
                 this.todos.forEach(
                     (elem, index) => {
