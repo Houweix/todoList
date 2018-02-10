@@ -57,7 +57,7 @@ const config = {
 
 if(isDev) {
     //手动将stylus处理加入rules中
-    config.model.rules.push({
+    config.module.rules.push({
         //css预处理器
         test: /\.styl/,
         use: [

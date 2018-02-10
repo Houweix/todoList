@@ -1,6 +1,6 @@
 <template>
     <div class="helper">
-        <span class="left">{{unFinishedTodoLength}} 项待办</span>
+        <span class="left" v-text="unFinishedTodoLength+' 项待办'"></span>
         <span class="tabs">
             <!--filter代表当前选中的状态-->
             <!--增加key提升性能-->
@@ -10,8 +10,9 @@
                     :key="state"
                     :class="[state, filter === state ? 'actived' : '']"
                     @click="toggleFilter(state)"
+                    v-text="state"
             >
-                {{state}}
+                <!--{{state}}-->
             </span>
         </span>
         <span class="clear" @click="clearAllCompleted">清除已完成</span>

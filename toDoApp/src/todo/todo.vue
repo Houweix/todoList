@@ -21,12 +21,14 @@
         <!--待办列表项-->
         <!--:todo是子组件的props属性 “t odo”是todos中的每一项-->
         <!--@del是监听子组件的emit方法  "deleteTodo"是调用当前父组件的methods方法-->
-        <item
-                :todo="todo"
-                v-for="todo in filteredTodos"
-                :key="todos.id"
-                @del="deleteTodo"
-        />
+            <item
+                    :todo="todo"
+                    v-for="todo in filteredTodos"
+                    :key="todos.id"
+                    @del="deleteTodo"
+            />
+
+
 
         <!--监听子组件的toggle-->
         <tabs
@@ -152,11 +154,17 @@
 
 
 <style lang="stylus" scoped>
+
+
+
+
     .real-app {
         width 600px
         margin 0 auto
         box-shadow 0 0 5px #666
         position relative
+        transition all .7s ease
+
     }
 
     .add {
