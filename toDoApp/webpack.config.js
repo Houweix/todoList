@@ -10,7 +10,7 @@ const config = {
     target: 'web',
     // 设置入口
     //__dirname代表webpack.config.js文件所在的地址
-    entry: path.join(__dirname, 'src/index.js'),//将--dirname和后面的路径连接成绝对路径
+    entry: path.join(__dirname, 'src/index.js'),//将__dirname和后面的路径连接成绝对路径
     // 设置出口
     output: {
         filename: 'bundle.[hash:8].js',
@@ -101,6 +101,7 @@ if(isDev) {
 else {
     config.entry = {
         app: path.join(__dirname,'src/index.js'),
+        //vender是第三方库的入口
         vendor: ['vue']
 
     };
