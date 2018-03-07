@@ -1,4 +1,3 @@
-[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)]()
 # vue-webpack打造的ToDo应用
 
 ## 功能展示
